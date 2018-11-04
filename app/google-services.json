@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "516389595291",
+    "firebase_url": "https://dbapp-33bdb.firebaseio.com",
+    "project_id": "dbapp-33bdb",
+    "storage_bucket": "dbapp-33bdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516389595291:android:aea8bf013174f5a3",
+        "android_client_info": {
+          "package_name": "com.example.byah_donabrasilina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516389595291-4e65ce0sfo54oaao3lm8np46njjsvh57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVedBZHgAPscMcLqQEfnmjE6brXsox96M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

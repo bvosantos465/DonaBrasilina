@@ -13,14 +13,20 @@ object OrderService{
     val TAG = "WS_DBApp"
 
     fun getOrders(contexto: Context ): List<Order> {
-        if (AndroidUtils.isInternetDisponivel(contexto)) {
-            val url = "$host/produtos"
-            val json = HttpHelper.get(url)
-            return parserJson(json)
-        } else {
-            return ArrayList<Order>()
+         var json:String;
+            if (AndroidUtils.isInternetDisponivel(contexto)) {
+                try{
+                    val url = "$host/produtos"
+                    json = HttpHelper.get(url)
+                }catch (e:Exception){
+                   return ArrayList<Order>()
+                }
+                return parserJson(json)
+            } else {
+                return ArrayList<Order>()
+            }
         }
-    }
+
 
      fun save(order: Order): Response {
         val json = HttpHelper.post("$host/orders", order.toJson())

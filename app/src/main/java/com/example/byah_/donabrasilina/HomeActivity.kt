@@ -54,13 +54,36 @@ class HomeActivity : DebugActivity(), NavigationView.OnNavigationItemSelectedLis
 
 
     fun taskOrders() {
+
+        // Criar a Thread
         Thread {
-            this.orders = OrderService.getOrders(context)
+            // Código para procurar as disciplinas
+            // que será executado em segundo plano / Thread separada
+            try{
+                this.orders = OrderService.getOrders(context)
+            }catch (e:Exception){
+
+                this.orders = ArrayList<Order>();
+            }
             runOnUiThread {
-                //Atualizar lista
-                recyclerOrders?.adapter = OrderAdapter(orders) { onClickOrder(it) }
+                if(this.orders.count() > 0) {
+                    // Código para atualizar a UI com a lista de disciplinas
+                    recyclerOrders?.adapter = OrderAdapter(this.orders) { onClickOrder(it) }
+                    // enviar notificação
+                    enviaNotificacao(this.orders.get(0))
+                }
             }
         }.start()
+
+    }
+
+    fun enviaNotificacao(order: Order) {
+        // Intent para abrir tela quando clicar na notificação
+        val intent = Intent(this, OrderActivity::class.java)
+        // parâmetros extras
+        intent.putExtra("pedido", order)
+        // Disparar notificação
+        NotificationUtil.create(this, 1, intent, "DonaBrasilina", "Você tem um novo ${order.nome}")
     }
 
     fun onClickOrder(order: Order) {

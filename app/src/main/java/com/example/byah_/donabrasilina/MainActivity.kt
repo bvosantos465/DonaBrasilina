@@ -16,27 +16,62 @@ class MainActivity : DebugActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        campo_imagem.setImageResource(R.drawable.logo_login)
 
-        button_login.setOnClickListener {
+        val buttonLogin = findViewById<Button>(R.id.button_login)
 
-            val username = text_username.text.toString()
-            val password = text_password.text.toString()
+        buttonLogin.setOnClickListener {onClickLogin() }
 
-            if (username == "aluno" && password == "impacta") {
 
-                Toast.makeText(context, "$username - $password", Toast.LENGTH_SHORT).show()
+        // procurar pelas preferências, se pediu para guardar usuário e senha
+        var lembrar = Prefs.getBoolean("lembrar")
+        if (lembrar) {
+            var lembrarNome  = Prefs.getString("lembrarNome")
+            var lembrarSenha  = Prefs.getString("lembrarSenha")
+            text_username.setText(lembrarNome)
+            text_password.setText(lembrarSenha)
+            checkLembrar.isChecked = lembrar
 
-                val intent = Intent(context, HomeActivity::class.java)
+        }
 
-                intent.putExtra("username", username)
-                intent.putExtra("password", password)
+    }
 
-                startActivityForResult(intent, 1)
-            } else {
-                Toast.makeText(context, "Usuário e senha incorretos", Toast.LENGTH_SHORT).show()
-            }
+    fun onClickLogin(){
+
+        val valorUsuario = text_username.text.toString()
+        val valorSenha = text_password.text.toString()
+
+        // armazenar valor do checkbox
+        Prefs.setBoolean("lembrar", checkLembrar.isChecked)
+        // verificar se é para pembrar nome e senha
+        if (checkLembrar.isChecked) {
+            Prefs.setString("lembrarNome", valorUsuario)
+            Prefs.setString("lembrarSenha", valorSenha)
+        } else{
+            Prefs.setString("lembrarNome", "")
+            Prefs.setString("lembrarSenha", "")
+        }
+
+
+        // criar intent
+        val intent = Intent(context, HomeActivity::class.java)
+        // colocar parâmetros (opcional)
+        val params = Bundle()
+        params.putString("nome", "DonaBrasilina")
+        intent.putExtras(params)
+
+        // enviar parâmetros simplificado
+        intent.putExtra("numero", 10)
+
+
+        // fazer a chamada esperando resultado
+        startActivityForResult(intent, 1)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1) {
+            val result = data?.getStringExtra("result")
+            Toast.makeText(context, "$result", Toast.LENGTH_LONG).show()
         }
     }
 }
-
